@@ -110,7 +110,7 @@ Clustering::Point & Clustering::Point::operator *=(double d) {
 
 Clustering::Point & Clustering::Point::operator /=(double d) {
     for (int i = 0; i < __dim; ++i)
-        __values[i] = ((__values[i] / d));
+        __values[i] = (__values[i] / d);
     return *this;
 }
 
@@ -124,7 +124,7 @@ const Clustering::Point Clustering::Point::operator*(double d) const {
 
 const Clustering::Point Clustering::Point::operator/(double d) const {
 
-    for (int i = 0; i < -__dim; ++i) {
+    for (int i = 0; i < __dim; ++i) {
         __values[i] /=d;
     }
     return *this;
@@ -133,5 +133,65 @@ const Clustering::Point Clustering::Point::operator/(double d) const {
 double & Clustering::Point::operator[](int index) {
 
     return __values[index];
+}
+
+Clustering::Point& Clustering::operator+=(Clustering::Point& lhs, const Clustering::Point& rhs)
+{
+    for (int i = 0; i < lhs.__dim; ++i) {
+        lhs.__values[i] +=rhs.__values[i];
+    }
+    return lhs;
+}
+
+Clustering::Point& Clustering::operator-=(Clustering::Point& lhs, const Clustering::Point& rhs)
+{
+    for (int i = 0; i < lhs.__dim; ++i) {
+        lhs.__values[i] -=rhs.__values[i];
+    }
+    return lhs;
+}
+
+Clustering::Point const Clustering::operator+(const Clustering::Point& lhs, const Clustering::Point& rhs)
+{
+    while (lhs.__dim == rhs.__dim)
+    {
+        Clustering::Point temp(lhs);
+        temp +=rhs;
+        return temp;
+    }
+
+}
+
+Clustering::Point const Clustering::operator-(const Clustering::Point& lhs, const Clustering::Point& rhs)
+{
+    while (lhs.__dim == rhs.__dim)
+    {
+        Clustering::Point temp(lhs);
+        temp -=rhs;
+        return temp;
+    }
+
+}
+
+bool Clustering::operator==(const Clustering::Point &a, const Clustering::Point &b) {
+
+    bool answer = false;
+    if (a.__id == b.__id){
+        if(a.__dim == b.__dim){
+            answer = true;
+            for (int i = 0; i < a.__dim; ++i) {
+                if(a.__values[i] != b.__values[i]) {
+                    answer = false;
+                    break;
+                }
+            }
+        }
+    }
+    return answer;
+}
+
+bool Clustering::operator!=(const Clustering::Point& a, const Clustering::Point &b)
+{
+    return !(a==b);
 }
 
