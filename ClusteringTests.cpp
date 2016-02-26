@@ -334,170 +334,170 @@ void test_point_equality(ErrorContext &ec, unsigned int numRuns) {
     }
 }
 
-//// operator<, operator<=, operator>, operator>=
-//// (pseudo-lexicographic comparison)
-//void test_point_comparison(ErrorContext &ec, unsigned int numRuns) {
-//    bool pass;
-//
-//    // Run at least once!!
-//    assert(numRuns > 0);
-//
-//    ec.DESC("--- Test - Point - Compare ---");
-//
-//    for (int run = 0; run < numRuns; run++) {
-//
-//        ec.DESC("compare pseudo-lexicographic order");
-//
-//        {
-//            Point p1(50), p2(50), p3(50);
-//
-//            for (int i = 0; i < 50; i ++) {
-//                p1[i] = i;
-//                p2[i] = i + 1.0;
-//                p3[i] = i + 2.0;
-//            }
-//
-//            pass = (p1 < p2) &&
-//                   (p2 < p3) &&
-//                   (p1 < p3);
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("less than, one different value, leading");
-//
-//        {
-//            Point p1(50), p2(50), p3(50);
-//
-//            for (int i = 0; i < 50; i ++) {
-//                p1[i] = p2[i] = p3[i] = i;
-//            }
-//            p2[1] = p1[1] + std::numeric_limits<double>::epsilon();
-//            p3[1] = p2[1] + std::numeric_limits<double>::epsilon();
-//
-//            pass = (p1 < p2) &&
-//                   (p2 < p3) &&
-//                   (p1 < p3);
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("less than, one different value, middle");
-//
-//        {
-//            Point p1(50), p2(50), p3(50);
-//
-//            for (int i = 0; i < 50; i ++) {
-//                p1[i] = p2[i] = p3[i] = i;
-//            }
-//            p2[30] = p1[30] + 0.00000001;
-//            p3[30] = p2[30] + 0.00000001;
-//
-//            pass = (p1 < p2) &&
-//                   (p2 < p3) &&
-//                   (p1 < p3);
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("less than, one different value, trailing");
-//
-//        {
-//            Point p1(50), p2(50), p3(50);
-//
-//            for (int i = 0; i < 50; i ++) {
-//                p1[i] = p2[i] = p3[i] = i;
-//            }
-//            p2[49] = p1[49] + 0.00000001;
-//            p3[49] = p2[49] + 0.00000001;
-//
-//            pass = (p1 < p2) &&
-//                   (p2 < p3) &&
-//                   (p1 < p3);
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("less than or equal, equal values");
-//
-//        {
-//            Point p1(50), p2(50), p3(50);
-//
-//            for (int i = 0; i < 50; i ++) {
-//                p1[i] = p2[i] = p3[i] = i;
-//            }
-//
-//            pass = (p1 <= p2) &&
-//                   (p2 <= p3) &&
-//                   (p1 <= p3);
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("less than or equal, one different value, trailing");
-//
-//        {
-//            Point p1(50), p2(50), p3(50);
-//
-//            for (int i = 0; i < 50; i ++) {
-//                p1[i] = p2[i] = p3[i] = i;
-//            }
-//            p2[49] = p1[49] + 0.00000001;
-//            p3[49] = p2[49] + 0.00000001;
-//
-//            pass = (p1 <= p2) &&
-//                   (p2 <= p3) &&
-//                   (p1 <= p3);
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("more than or equal, equal values");
-//
-//        {
-//            Point p1(50), p2(50), p3(50);
-//
-//            for (int i = 0; i < 50; i ++) {
-//                p1[i] = p2[i] = p3[i] = i;
-//            }
-//
-//            pass = (p1 >= p2) &&
-//                   (p2 >= p3) &&
-//                   (p1 >= p3);
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("more than or equal, one different value, middle");
-//
-//        {
-//            Point p1(50), p2(50), p3(50);
-//
-//            for (int i = 0; i < 50; i ++) {
-//                p1[i] = p2[i] = p3[i] = i;
-//            }
-//
-//            p2[30] = p3[30] + 0.00000001;
-//            p1[30] = p2[30] + 0.00000001;
-//
-//            pass = (p1 >= p2) &&
-//                   (p2 >= p3) &&
-//                   (p1 >= p3);
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("more than, one different value, middle");
-//
-//        {
-//            Point p1(50), p2(50), p3(50);
-//
-//            for (int i = 0; i < 50; i ++) {
-//                p1[i] = p2[i] = p3[i] = i;
-//            }
-//
-//            p2[30] = p3[30] + 0.00000001;
-//            p1[30] = p2[30] + 0.00000001;
-//
-//            pass = (p1 > p2) &&
-//                   (p2 > p3) &&
-//                   (p1 > p3);
-//            ec.result(pass);
-//        }
-//    }
-//}
+// operator<, operator<=, operator>, operator>=
+// (pseudo-lexicographic comparison)
+void test_point_comparison(ErrorContext &ec, unsigned int numRuns) {
+    bool pass;
+
+    // Run at least once!!
+    assert(numRuns > 0);
+
+    ec.DESC("--- Test - Point - Compare ---");
+
+    for (int run = 0; run < numRuns; run++) {
+
+        ec.DESC("compare pseudo-lexicographic order");
+
+        {
+            Point p1(50), p2(50), p3(50);
+
+            for (int i = 0; i < 50; i ++) {
+                p1[i] = i;
+                p2[i] = i + 1.0;
+                p3[i] = i + 2.0;
+            }
+
+            pass = (p1 < p2) &&
+                   (p2 < p3) &&
+                   (p1 < p3);
+            ec.result(pass);
+        }
+
+        ec.DESC("less than, one different value, leading");
+
+        {
+            Point p1(50), p2(50), p3(50);
+
+            for (int i = 0; i < 50; i ++) {
+                p1[i] = p2[i] = p3[i] = i;
+            }
+            p2[1] = p1[1] + std::numeric_limits<double>::epsilon();
+            p3[1] = p2[1] + std::numeric_limits<double>::epsilon();
+
+            pass = (p1 < p2) &&
+                   (p2 < p3) &&
+                   (p1 < p3);
+            ec.result(pass);
+        }
+
+        ec.DESC("less than, one different value, middle");
+
+        {
+            Point p1(50), p2(50), p3(50);
+
+            for (int i = 0; i < 50; i ++) {
+                p1[i] = p2[i] = p3[i] = i;
+            }
+            p2[30] = p1[30] + 0.00000001;
+            p3[30] = p2[30] + 0.00000001;
+
+            pass = (p1 < p2) &&
+                   (p2 < p3) &&
+                   (p1 < p3);
+            ec.result(pass);
+        }
+
+        ec.DESC("less than, one different value, trailing");
+
+        {
+            Point p1(50), p2(50), p3(50);
+
+            for (int i = 0; i < 50; i ++) {
+                p1[i] = p2[i] = p3[i] = i;
+            }
+            p2[49] = p1[49] + 0.00000001;
+            p3[49] = p2[49] + 0.00000001;
+
+            pass = (p1 < p2) &&
+                   (p2 < p3) &&
+                   (p1 < p3);
+            ec.result(pass);
+        }
+
+        ec.DESC("less than or equal, equal values");
+
+        {
+            Point p1(50), p2(50), p3(50);
+
+            for (int i = 0; i < 50; i ++) {
+                p1[i] = p2[i] = p3[i] = i;
+            }
+
+            pass = (p1 <= p2) &&
+                   (p2 <= p3) &&
+                   (p1 <= p3);
+            ec.result(pass);
+        }
+
+        ec.DESC("less than or equal, one different value, trailing");
+
+        {
+            Point p1(50), p2(50), p3(50);
+
+            for (int i = 0; i < 50; i ++) {
+                p1[i] = p2[i] = p3[i] = i;
+            }
+            p2[49] = p1[49] + 0.00000001;
+            p3[49] = p2[49] + 0.00000001;
+
+            pass = (p1 <= p2) &&
+                   (p2 <= p3) &&
+                   (p1 <= p3);
+            ec.result(pass);
+        }
+
+        ec.DESC("more than or equal, equal values");
+
+        {
+            Point p1(50), p2(50), p3(50);
+
+            for (int i = 0; i < 50; i ++) {
+                p1[i] = p2[i] = p3[i] = i;
+            }
+
+            pass = (p1 >= p2) &&
+                   (p2 >= p3) &&
+                   (p1 >= p3);
+            ec.result(pass);
+        }
+
+        ec.DESC("more than or equal, one different value, middle");
+
+        {
+            Point p1(50), p2(50), p3(50);
+
+            for (int i = 0; i < 50; i ++) {
+                p1[i] = p2[i] = p3[i] = i;
+            }
+
+            p2[30] = p3[30] + 0.00000001;
+            p1[30] = p2[30] + 0.00000001;
+
+            pass = (p1 >= p2) &&
+                   (p2 >= p3) &&
+                   (p1 >= p3);
+            ec.result(pass);
+        }
+
+        ec.DESC("more than, one different value, middle");
+
+        {
+            Point p1(50), p2(50), p3(50);
+
+            for (int i = 0; i < 50; i ++) {
+                p1[i] = p2[i] = p3[i] = i;
+            }
+
+            p2[30] = p3[30] + 0.00000001;
+            p1[30] = p2[30] + 0.00000001;
+
+            pass = (p1 > p2) &&
+                   (p2 > p3) &&
+                   (p1 > p3);
+            ec.result(pass);
+        }
+    }
+}
 //
 // operator+=, operator-=, operator*=, operator/=
 void test_point_CAO(ErrorContext &ec, unsigned int numRuns) {
@@ -734,87 +734,87 @@ void test_point_distance(ErrorContext &ec, unsigned int numRuns) {
     }
 }
 
-//// operator>>, operator<< (incl. exceptions)
-//void test_point_IO(ErrorContext &ec, unsigned int numRuns) {
-//    bool pass;
-//
-//    // Run at least once!!
-//    assert(numRuns > 0);
-//
-//    ec.DESC("--- Test - Point - Stream IO ---");
-//
-//    for (int run = 0; run < numRuns; run++) {
-//
-//        ec.DESC("stream between two points");
-//
-//        {
-//            Point p1(50);
-//
-//            for (int i = 0; i < 50; i++)
-//                p1[i] = 6.12 * i * i + 5.17 * i + 4.19;
-//
-//            Point p2(50);
-//            std::stringstream iostr;
-//            iostr << std::setprecision(20) << p1; // Avoid truncation
-//            iostr >> p2;
-//
-//            pass = true;
-//            for (int i = 0; i < 50; i++)
-//                pass = pass && (p2[i] == p1[i]);
-//            if (!pass) {
-//                std::cout << p1 << std::endl;
-//                std::cout << p2 << std::endl;
-//            }
-//            ec.result(pass);
-//
-//        }
-//    }
-//}
-//
+// operator>>, operator<< (incl. exceptions)
+void test_point_IO(ErrorContext &ec, unsigned int numRuns) {
+    bool pass;
 
-//// - - - - - - - - - - C L U S T E R - - - - - - - - - -
-//
-//// Smoketest: constructor, copy constructor, destructor
-//void test_cluster_smoketest(ErrorContext &ec) {
-//    bool pass;
-//
-//    ec.DESC("--- Test - Cluster - Smoketest ---");
-//
-//    ec.DESC("constructor, destructor");
-//    pass = true;
-//    for (int i = 0; i < 10; i ++) {
-//
-//        Cluster c;
-//    }
-//    ec.result(pass);
-//
-//
-//    ec.DESC("size getter - implement if you haven't");
-//    pass = true;
-//    for (int i = 0; i < 10; i ++) {
-//
-//        // Construct a Point
-//        // At the end of the block, destructor will be called
-//        Cluster c;
-//
-//        pass = (c.getSize() == 0);
-//        if (!pass) break;
-//    }
-//    ec.result(pass);
-//
-//
-//    ec.DESC("copy constructor");
-//    pass = true;
-//    for (int i = 0; i < 10; i ++) {
-//
-//        Cluster c1, c2(c1);
-//
-//        pass = (c1 == c2);
-//        if (!pass) break;
-//    }
-//    ec.result(pass);
-//}
-//
+    // Run at least once!!
+    assert(numRuns > 0);
+
+    ec.DESC("--- Test - Point - Stream IO ---");
+
+    for (int run = 0; run < numRuns; run++) {
+
+        ec.DESC("stream between two points");
+
+        {
+            Point p1(50);
+
+            for (int i = 0; i < 50; i++)
+                p1[i] = 6.12 * i * i + 5.17 * i + 4.19;
+
+            Point p2(50);
+            std::stringstream iostr;
+            iostr << std::setprecision(20) << p1; // Avoid truncation
+            iostr >> p2;
+
+            pass = true;
+            for (int i = 0; i < 50; i++)
+                pass = pass && (p2[i] == p1[i]);
+            if (!pass) {
+                std::cout << p1 << std::endl;
+                std::cout << p2 << std::endl;
+            }
+            ec.result(pass);
+
+        }
+    }
+}
+
+
+// - - - - - - - - - - C L U S T E R - - - - - - - - - -
+
+// Smoketest: constructor, copy constructor, destructor
+void test_cluster_smoketest(ErrorContext &ec) {
+    bool pass;
+
+    ec.DESC("--- Test - Cluster - Smoketest ---");
+
+    ec.DESC("constructor, destructor");
+    pass = true;
+    for (int i = 0; i < 10; i ++) {
+
+        Cluster c;
+    }
+    ec.result(pass);
+
+
+    ec.DESC("size getter - implement if you haven't");
+    pass = true;
+    for (int i = 0; i < 10; i ++) {
+
+        // Construct a Point
+        // At the end of the block, destructor will be called
+        Cluster c;
+
+        pass = (c.getSize() == 0);
+        if (!pass) break;
+    }
+    ec.result(pass);
+
+
+    ec.DESC("copy constructor");
+    pass = true;
+    for (int i = 0; i < 10; i ++) {
+
+        Cluster c1, c2(c1);
+
+        pass = (c1 == c2);
+        if (!pass) break;
+    }
+    ec.result(pass);
+}
+
 //// add, remove
 //void test_cluster_addremove(ErrorContext &ec, unsigned int numRuns) {
 //    bool pass;

@@ -4,6 +4,8 @@
 
 #include "Point.h"
 #include <cmath>
+#include <sstream>
+#include <cstdlib>
 
 //using namespace Clustering;
 
@@ -109,8 +111,10 @@ Clustering::Point & Clustering::Point::operator *=(double d) {
 }
 
 Clustering::Point & Clustering::Point::operator /=(double d) {
-    for (int i = 0; i < __dim; ++i)
-        __values[i] = (__values[i] / d);
+    if (d != 0.0) {
+        for (int i = 0; i < __dim; ++i)
+            __values[i] = (__values[i] / d);
+    }
     return *this;
 }
 
@@ -153,23 +157,17 @@ Clustering::Point& Clustering::operator-=(Clustering::Point& lhs, const Clusteri
 
 Clustering::Point const Clustering::operator+(const Clustering::Point& lhs, const Clustering::Point& rhs)
 {
-    while (lhs.__dim == rhs.__dim)
-    {
-        Clustering::Point temp(lhs);
-        temp +=rhs;
-        return temp;
-    }
+    Clustering::Point temp(lhs);
+    temp +=rhs;
+    return temp;
 
 }
 
 Clustering::Point const Clustering::operator-(const Clustering::Point& lhs, const Clustering::Point& rhs)
 {
-    while (lhs.__dim == rhs.__dim)
-    {
-        Clustering::Point temp(lhs);
-        temp -=rhs;
-        return temp;
-    }
+    Clustering::Point temp(lhs);
+    temp -=rhs;
+    return temp;
 
 }
 
@@ -177,21 +175,64 @@ bool Clustering::operator==(const Clustering::Point &a, const Clustering::Point 
 
     bool answer = false;
     if (a.__id == b.__id){
-        if(a.__dim == b.__dim){
-            answer = true;
+        answer = true;
             for (int i = 0; i < a.__dim; ++i) {
                 if(a.__values[i] != b.__values[i]) {
-                    answer = false;
-                    break;
+                    return false;
                 }
             }
-        }
     }
     return answer;
 }
 
 bool Clustering::operator!=(const Clustering::Point& a, const Clustering::Point &b)
 {
-    return !(a==b);
+    return !(a == b);
 }
 
+bool Clustering::operator<(const Clustering::Point& a, const Clustering::Point &b){
+
+    bool answer = true;
+        for (int i = 0; i < a.__dim ; ++i) {
+            if(a.__values[i] > b.__values[i]) {
+                answer = false;
+                break;
+            }
+            else if(a.__values[i]> b.__values[i]){
+                break;
+            }
+        }
+
+    return answer;
+}
+
+bool Clustering::operator>(const Clustering::Point& a, const Clustering::Point &b){
+    return !(a < b);
+}
+
+bool Clustering::operator>=(const Clustering::Point& a, const Clustering::Point &b){
+    return (b < a);
+}
+bool Clustering::operator<=(const Clustering::Point& a, const Clustering::Point &b) {
+    return !(a > b);
+}
+
+std::ostream & Clustering::operator<<(std::ostream & output, const Clustering::Point & somePoint){
+    for (int i = 0; i < somePoint.__dim; ++i) {
+
+        output << somePoint.__values[i];
+        if(i !=(somePoint.__dim-1))
+        output << ", ";
+    }
+    return output;
+}
+
+std::istream & Clustering::operator >>(std::istream & input, Clustering::Point & somePoint) {
+
+    std::string temp;
+    for (int i = 0; i < somePoint.__dim; ++i) {
+        getline(input, temp, ',');
+        somePoint.__values[i] = stod(temp);
+    }
+    return input;
+}
