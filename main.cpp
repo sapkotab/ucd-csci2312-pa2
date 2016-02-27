@@ -42,33 +42,65 @@ int main() {
     test_point_distance(ec, NumIters);
     test_point_IO(ec, NumIters);
 
-    // cluster tests
+//     cluster tests
     test_cluster_smoketest(ec);
     test_cluster_subscript(ec, NumIters);
     test_cluster_equality(ec, NumIters);
     test_cluster_order(ec, NumIters);
-//    test_cluster_addremove(ec, NumIters);
+    test_cluster_addremove(ec, NumIters);
     test_cluster_contain(ec, NumIters);
     test_cluster_copying(ec, NumIters);
     test_cluster_assignment(ec, NumIters);
-//    test_cluster_CAO(ec, NumIters);
-//    test_cluster_SAO(ec, NumIters);
-//    test_cluster_IO(ec, NumIters);
+    test_cluster_CAO(ec, NumIters);
+    test_cluster_SAO(ec, NumIters);
+    test_cluster_IO(ec, NumIters);
 
     return 0;
 }
 //#include <iostream>
-//#include "Point.h"
+//#include "Cluster.h"
 //using namespace std;
 //using namespace Clustering;
 //int main ()
 //{
-//    double x[3] = {2.2, 4.5, 0.11};
-//    double * y = x;
-//    double * z = x;
-//    Point a (3,x);
-//    Point b (3,z);
-//    cout << a << endl;
+//    double x[] = {2.2, 4.5, 0.11};
+//    double y[] = {1.1, 2.4, 0.33};
+//    double z[] = {3.4, 5.6, 1.9};
+//    double xx[] = {4.4, 2.2, 5.6};
 //
+//    Point s(3,xx);
+//    Point p(3, x);
+//    Point q(3, y);
+//    Point r(3, z);
+//
+//
+//    Cluster a;
+//    a += r;
+//    a += q;
+//    a += p;
+//    a += s;
+//
+//    Cluster b = a;
+//    if (a == b)
+//        cout << "true" << endl;
+//    else
+//        cout << "false" << endl;
+//
+//
+//    cout << a << endl;
+//    cout << a.getSize() << endl;
+//    cout << b << endl;
+//    cout << b.getSize() << endl;
+//    cout << p.getId() << endl;
+//
+//    bool pass = true;
+//    for (int i = 0; i < 10; i ++) {
+//
+//        Cluster c1, c2(c1);
+//
+//        pass = (c1 == c2);
+//        if (!pass)break;
+//    }
+//    cout << "result " << pass << endl;
 //    return 0;
 //}

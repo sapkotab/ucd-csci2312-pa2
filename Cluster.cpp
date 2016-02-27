@@ -9,38 +9,38 @@ using namespace Clustering;
 
 
 void Cluster::__del(){
-    LNodePtr current = __points;
-    LNodePtr temp;
-    while (current != nullptr)
+    while (__points != nullptr)
     {
-        temp = current->next;
-        delete current;
-        current = temp;
-        __size--;
+        LNodePtr temp = __points->next;
+        delete __points;
+        __points = temp;
+        --__size;
     }
-    __points = nullptr;
-
-
 }
 
 
-void Cluster::__cpy(LNodePtr pts){ // may be working okay.
-    if (pts != nullptr) {
+void Cluster::__cpy(LNodePtr pts){
+    if (pts != nullptr)
+    {
         LNodePtr currentPts = pts;
         __points = new LNode(currentPts->point,nullptr);
         LNodePtr current = __points;
         currentPts = currentPts->next;
         while (currentPts != nullptr) {
-            current = current->next = new LNode(currentPts->point,nullptr);
+            current->next = new LNode(currentPts->point,nullptr);
+            current = current->next;
             currentPts = currentPts->next;
         }
     }
 }
 
-bool Cluster::__in(const Point &p) const {
+bool Cluster::__in(const Point &p) const
+{
     LNodePtr search = __points;
-    while (search != nullptr){
-        if(search->point == p){
+    while (search != nullptr)
+    {
+        if(search->point == p)
+        {
             return true;
         }
         search = search->next;
@@ -54,31 +54,30 @@ Cluster::Cluster() {
 }
 
 Cluster::Cluster(const Cluster & entry){
-
-    if (this != &entry) {
-        this->__size= entry.__size;
-        this->__cpy(entry.__points);
-    }
-
+    __size = entry.__size;
+    if(this != &entry) {
+       __cpy(entry.__points);
+   }
 }
 
 Cluster &Cluster::operator=(const Cluster &entry) {
-    if(this != &entry) {
-        this->__size = entry.__size;
+    this->__size = entry.__size;
+    if(this != &entry)
+    {
         this->__cpy(entry.__points);
     }
     return *this;
 }
 
 Cluster::~Cluster() {
-//    this->__del();
+//    __del();
 }
 
 int Cluster::getSize() const {
     return __size;
 }
 
-void Cluster::add(const Point & point){// not working;
+void Cluster::add(const Point & point){
 
     LNodePtr newNode = new LNode(point,nullptr);
 
@@ -105,20 +104,23 @@ void Cluster::add(const Point & point){// not working;
             newNode->next = current;
             prev->next = newNode;
         }
-        __size++;
+
     }
+    __size++;
 }
 
-const Point &Cluster::remove(const Point &point) {
+const Point &Cluster::remove(const Point &point) {// problem
     LNodePtr prev = nullptr;
     LNodePtr current = __points;
-    if (current !=nullptr && current->point == point) {
+    if (current !=nullptr && current->point == point)
+    {
         __points = __points->next;
         delete current;
         __size--;
         return point;
     }
-    while (current != nullptr && point != current->point) {
+    while (current != nullptr && point != current->point)
+    {
         prev =current;
         current = current->next;
     }
@@ -140,20 +142,28 @@ const Point &Cluster::operator[](unsigned int index) const {
 }
 
 Cluster &Cluster::operator+=(const Point &point) {
-    this->add(point);
-    return *this;
+    if(!__in(point))
+    {
+        add(point);
+    }
 }
+//    this->add(point);
+//    return *this;
+//}
 
 Cluster &Cluster::operator-=(const Point &point) {
-    this->remove(point);
+    if(__in(point))
+    {
+        remove(point);
+    }
     return *this;
 }
 
 Cluster &Cluster::operator+=(const Cluster &cluster) {
     LNodePtr currentAdd = cluster.__points;
     while (currentAdd != nullptr){
-        if(!this->__in(currentAdd->point)){
-            this->add(currentAdd->point);
+        if(contains(currentAdd->point)){
+            add(currentAdd->point);
         }
         currentAdd = currentAdd->next;
     }
@@ -163,8 +173,8 @@ Cluster &Cluster::operator+=(const Cluster &cluster) {
 Cluster &Cluster::operator-=(const Cluster &cluster) {
     LNodePtr currentAdd = cluster.__points;
     while (currentAdd != nullptr){
-        if(this->__in(currentAdd->point)){
-            this->remove(currentAdd->point);
+        if(__in(currentAdd->point)){
+            remove(currentAdd->point);
         }
         currentAdd = currentAdd->next;
     }

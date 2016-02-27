@@ -172,17 +172,19 @@ Point const Clustering::operator-(const Point& lhs, const Point& rhs)
 }
 
 bool Clustering::operator==(const Point &a, const Point &b) {
-
+bool answer =false;
     if (a.__id == b.__id) {
+        answer = true;
         if (a.__dim == b.__dim) {
             for (int i = 0; i<a.__dim; ++i) {
                 if (a.__values[i] != b.__values[i]) {
-                    return false;
+                    answer = false;
+                    break;
                 }
             }
         }
     }
-    return true;
+    return answer;
 
 //    bool answer = false;
 //    if (a.__id == b.__id){
@@ -203,26 +205,26 @@ bool Clustering::operator!=(const Point& a, const Point &b)
 
 bool Clustering::operator<(const Point& a, const Point &b){
 
-    bool answer = true;
-    for (int i = 0; i < a.__dim ; ++i) {
-        if(a.__values[i] > b.__values[i]) {
-            answer = false;
-            break;
-        }
-        else if(a.__values[i]> b.__values[i]){
-            break;
+    if (a != b) {
+        if (a.__dim == b.__dim) {
+            for (int i = 0; i < a.__dim; ++i) {
+                if (a.__values[i] > b.__values[i]) {
+                    return false;
+                }
+                else if (a.__values[i] < b.__values[i]) {
+                    return true;
+                }
+            }
         }
     }
-
-    return answer;
 }
 
 bool Clustering::operator>(const Point& a, const Point &b){
-    return !(a < b);
+    return (b < a);
 }
 
 bool Clustering::operator>=(const Point& a, const Point &b){
-    return (b < a);
+    return !(a < b);
 }
 bool Clustering::operator<=(const Point& a, const Point &b) {
     return !(a > b);
