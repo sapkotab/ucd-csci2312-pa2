@@ -66,11 +66,11 @@ Point & Point::operator=(const Point & entry)
 
 Point::~Point()
 {
-//    if(__values != nullptr)
-//    {
+    if(__values != nullptr)
+    {
         delete [] __values;
         __values = nullptr;
-//    }
+    }
 
 }
 
@@ -185,17 +185,6 @@ bool answer =false;
         }
     }
     return answer;
-
-//    bool answer = false;
-//    if (a.__id == b.__id){
-//        answer = true;
-//        for (int i = 0; i < a.__dim; ++i) {
-//            if(a.__values[i] != b.__values[i]) {
-//                return false;
-//            }
-//        }
-//    }
-//    return answer;
 }
 
 bool Clustering::operator!=(const Point& a, const Point &b)
@@ -233,7 +222,6 @@ bool Clustering::operator<=(const Point& a, const Point &b) {
 
 std::ostream & Clustering::operator<<(std::ostream & output, const Point & somePoint){
     for (int i = 0; i < somePoint.__dim; ++i) {
-
         output << somePoint.__values[i];
         if(i !=(somePoint.__dim-1))
             output << ", ";
@@ -247,7 +235,7 @@ std::istream & Clustering::operator >>(std::istream & input, Point & somePoint) 
     for (int i = 0; i < somePoint.__dim; ++i) {
         getline(input, temp, ',');
         std::stringstream ss (temp);
-        ss >> somePoint.__values[i] /*= stod(temp)*/;
+        ss >> somePoint.__values[i];
     }
     return input;
 }

@@ -236,7 +236,10 @@ bool Clustering::operator==(const Cluster & lhs, const Cluster & rhs){
         currLhs = currLhs->next;
         currRhs = currRhs->next;
     }
-    return (currLhs ==nullptr && currRhs == nullptr);
+    if(currLhs !=nullptr || currRhs != nullptr)
+        return false;
+    else;
+        return true;
 }
 bool Clustering::operator!=(const Cluster & lhs, const Cluster & rhs){
     return !(lhs == rhs);
