@@ -5,7 +5,7 @@
 #include "Point.h"
 #include <cmath>
 #include <sstream>
-#include <cstdlib>
+
 
 using namespace Clustering;
 
@@ -66,11 +66,11 @@ Point & Point::operator=(const Point & entry)
 
 Point::~Point()
 {
-    if(__values != nullptr)
-    {
-        delete[] __values;
+//    if(__values != nullptr)
+//    {
+        delete [] __values;
         __values = nullptr;
-    }
+//    }
 
 }
 
@@ -217,6 +217,7 @@ bool Clustering::operator<(const Point& a, const Point &b){
             }
         }
     }
+    return false;
 }
 
 bool Clustering::operator>(const Point& a, const Point &b){
@@ -245,7 +246,8 @@ std::istream & Clustering::operator >>(std::istream & input, Point & somePoint) 
     std::string temp;
     for (int i = 0; i < somePoint.__dim; ++i) {
         getline(input, temp, ',');
-        somePoint.__values[i] = stod(temp);
+        std::stringstream ss (temp);
+        ss >> somePoint.__values[i] /*= stod(temp)*/;
     }
     return input;
 }

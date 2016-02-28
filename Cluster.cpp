@@ -3,6 +3,7 @@
 //
 
 #include "Cluster.h"
+#include <sstream>
 
 using namespace Clustering;
 
@@ -27,42 +28,52 @@ void Cluster::__cpy(LNodePtr pts){
 
     if (pts != nullptr)
     {
+
         LNodePtr currentPts = pts;
-        __points = new LNode(currentPts->point,nullptr);
+        LNodePtr newNode = new LNode(pts->point, nullptr);
+        __points = newNode;
+
         LNodePtr current = __points;
         currentPts = currentPts->next;
-        while (currentPts != nullptr) {
-            current->next = new LNode(currentPts->point,nullptr);
+
+        while (currentPts != nullptr)
+        {
+            newNode = new LNode(currentPts->point, nullptr);
+            current->next = newNode;
             current = current->next;
             currentPts = currentPts->next;
         }
+
     }
 }
 
-bool Cluster::__in(const Point & p) const
+bool Cluster::__in(const Point & entryPoint) const
 {
-    LNodePtr search = __points;
-    while (search != nullptr)
+    LNodePtr current = __points;
+    while (current != nullptr)
     {
-        if(search->point == p)
+        if(current->point == entryPoint)
         {
             return true;
         }
-        search = search->next;
+        current = current->next;
     }
     return false;
 }
 
-Cluster::Cluster() {
+Cluster::Cluster()
+{
     __size = 0;
     __points = nullptr;
 }
 
-Cluster::Cluster(const Cluster & entry){
+Cluster::Cluster(const Cluster & entry)
+{
     __size = entry.__size;
-    if(this != &entry) {
+    if(this != &entry)
+    {
        __cpy(entry.__points);
-   }
+    }
 }
 
 Cluster &Cluster::operator=(const Cluster &entry) {
@@ -74,7 +85,9 @@ Cluster &Cluster::operator=(const Cluster &entry) {
     return *this;
 }
 
-Cluster::~Cluster() {
+Cluster::~Cluster()
+{
+//    delete __points;
 //    __del();
 }
 
@@ -92,7 +105,7 @@ void Cluster::add(const Point & point){
         LNodePtr current = __points;
         LNodePtr prev = nullptr;
         while (current !=nullptr) {
-            if (current->point >= point) {
+            if (current->point > point) {
                 break;
             }
             else{
@@ -151,6 +164,7 @@ Cluster &Cluster::operator+=(const Point &point) {
     {
         add(point);
     }
+    return *this;
 }
 
 Cluster &Cluster::operator-=(const Point &point) {
@@ -165,8 +179,10 @@ Cluster &Cluster::operator+=(const Cluster &cluster) {
 
     LNodePtr currentAdd = cluster.__points;
 
-    while (currentAdd != nullptr){
-        if(!contains(currentAdd->point)){
+    while (currentAdd)
+    {
+        if(!contains(currentAdd->point))
+        {
             add(currentAdd->point);
         }
         currentAdd = currentAdd->next;
@@ -187,16 +203,25 @@ Cluster &Cluster::operator-=(const Cluster &cluster) {
 
 // Friends: IO
 std::ostream &Clustering::operator<<(std::ostream & output, const Cluster & cluster){
-    LNodePtr current = cluster.__points;
+    LNodePtr current =cluster.__points;
     while (current != nullptr){
         output << current->point << std::endl;
         current = current->next;
     }
-    return output;}
+    return output;
+}
 
-std::istream &Clustering::operator>>(std::istream & input, Cluster & cluster){//TODO
-    //    getline(input,cluster.__points->point);
+std::istream &Clustering::operator>>(std::istream & input, Cluster & cluster){
+    std::string s;
+    while (getline(input,s) && input.good()) {
+        int n = std::count(s.begin(), s.end(), ',');
+        Point p(n+1);
+        std::stringstream ss(s);
+        ss >> p;
+        cluster.add(p);
+    }
     return input;
+
 }
 
 // Friends: Comparison
