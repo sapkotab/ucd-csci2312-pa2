@@ -9,17 +9,22 @@ using namespace Clustering;
 
 
 void Cluster::__del(){
-    while (__points != nullptr)
+
+    LNodePtr previous = __points;
+    LNodePtr current = nullptr;
+
+    while (previous != nullptr)
     {
-        LNodePtr temp = __points->next;
-        delete __points;
-        __points = temp;
+        current = previous->next;
+        delete previous;
+        previous = current;
         --__size;
     }
 }
 
 
 void Cluster::__cpy(LNodePtr pts){
+
     if (pts != nullptr)
     {
         LNodePtr currentPts = pts;
@@ -34,7 +39,7 @@ void Cluster::__cpy(LNodePtr pts){
     }
 }
 
-bool Cluster::__in(const Point &p) const
+bool Cluster::__in(const Point & p) const
 {
     LNodePtr search = __points;
     while (search != nullptr)
@@ -80,7 +85,6 @@ int Cluster::getSize() const {
 void Cluster::add(const Point & point){
 
     LNodePtr newNode = new LNode(point,nullptr);
-
     if (__points == nullptr) {
         __points = newNode;
     }
@@ -88,7 +92,7 @@ void Cluster::add(const Point & point){
         LNodePtr current = __points;
         LNodePtr prev = nullptr;
         while (current !=nullptr) {
-            if (current->point >= newNode->point) {
+            if (current->point >= point) {
                 break;
             }
             else{
@@ -131,7 +135,8 @@ const Point &Cluster::remove(const Point &point) {// problem
 }
 
 bool Cluster::contains(const Point &point) {
-    return this->__in(point);
+    bool answer = __in(point);
+    return answer;
 }
 const Point &Cluster::operator[](unsigned int index) const {
     LNodePtr current = __points;
@@ -147,9 +152,6 @@ Cluster &Cluster::operator+=(const Point &point) {
         add(point);
     }
 }
-//    this->add(point);
-//    return *this;
-//}
 
 Cluster &Cluster::operator-=(const Point &point) {
     if(__in(point))
@@ -160,9 +162,11 @@ Cluster &Cluster::operator-=(const Point &point) {
 }
 
 Cluster &Cluster::operator+=(const Cluster &cluster) {
+
     LNodePtr currentAdd = cluster.__points;
+
     while (currentAdd != nullptr){
-        if(contains(currentAdd->point)){
+        if(!contains(currentAdd->point)){
             add(currentAdd->point);
         }
         currentAdd = currentAdd->next;
@@ -215,8 +219,7 @@ bool Clustering::operator!=(const Cluster & lhs, const Cluster & rhs){
 
 // Friends: Arithmetic (Cluster and Point)
 const Cluster Clustering::operator+(const Cluster & lhs, const Point & rhs){
-    Cluster temp;
-    temp +=lhs;
+    Cluster temp(lhs);
     temp +=rhs;
     return temp ;
 }

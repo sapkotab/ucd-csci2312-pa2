@@ -63,44 +63,35 @@ int main() {
 //using namespace Clustering;
 //int main ()
 //{
-//    double x[] = {2.2, 4.5, 0.11};
-//    double y[] = {1.1, 2.4, 0.33};
-//    double z[] = {3.4, 5.6, 1.9};
-//    double xx[] = {4.4, 2.2, 5.6};
+//    double v[] ={1,0, 0, 0, 0};
+//    double w[] ={0,1, 0, 0, 0};
+//    double x[] ={0,0, 1, 0, 0};
+//    double y[] ={0,0, 0, 1, 0};
+//    double z[] ={0,0, 0, 0, 1};
 //
-//    Point s(3,xx);
-//    Point p(3, x);
-//    Point q(3, y);
-//    Point r(3, z);
-//
-//
-//    Cluster a;
-//    a += r;
-//    a += q;
-//    a += p;
-//    a += s;
-//
-//    Cluster b = a;
-//    if (a == b)
-//        cout << "true" << endl;
-//    else
-//        cout << "false" << endl;
+//    Point   p1(5,v),
+//            p2(5,w),
+//            p3(5,x),
+//            p4(5,y),
+//            p5(5,z);
 //
 //
-//    cout << a << endl;
-//    cout << a.getSize() << endl;
-//    cout << b << endl;
-//    cout << b.getSize() << endl;
-//    cout << p.getId() << endl;
+//    Cluster     c1,
+//                c2,
+//                c3;
 //
-//    bool pass = true;
-//    for (int i = 0; i < 10; i ++) {
+//    c1+=p1; c1+=p2; c1+=p3;
 //
-//        Cluster c1, c2(c1);
+//    c2+=p3; c2+=p4; c2+=p5;
 //
-//        pass = (c1 == c2);
-//        if (!pass)break;
-//    }
-//    cout << "result " << pass << endl;
+//    c1 += c2;
+//    c3+=p1;c3+=p2;c3+=p3;c3+=p4;c3+=p5;
+//
+//    cout << c1 << endl;
+//    cout << c3 << endl;
+//
+//    if (c1 == c2)
+//        cout << " they are" << endl;
+//
 //    return 0;
 //}
