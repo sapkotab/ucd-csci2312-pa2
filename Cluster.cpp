@@ -7,21 +7,17 @@
 
 using namespace Clustering;
 
-
+LNode::LNode(const Point &p, LNodePtr n): point(p),next(n){};
 
 void Cluster::__del(){
 
-    LNodePtr previous = __points;
-    LNodePtr current = nullptr;
-
-    while (previous != nullptr)
-    {
-        current = previous->next;
-        delete previous;
-        previous = current;
-        --__size;
+   LNodePtr current = __points;
+    while (current->next != nullptr){
+        LNodePtr temp = current->next;
+        delete current;
+        current = temp;
     }
-}
+    }
 
 
 void Cluster::__cpy(LNodePtr pts){
@@ -87,8 +83,7 @@ Cluster &Cluster::operator=(const Cluster &entry) {
 
 Cluster::~Cluster()
 {
-//    delete __points;
-//    __del();
+//  __del();
 }
 
 int Cluster::getSize() const {
