@@ -7,24 +7,40 @@
 
 using namespace Clustering;
 
-LNode::LNode(const Point &p, LNodePtr n): point(p),next(n){};
+LNode::LNode(const Point &p, LNodePtr n): point(p){
+    next = n;
+}
 
 void Cluster::__del(){
 
-   LNodePtr current = __points;
-    while (current->next != nullptr){
-        LNodePtr temp = current->next;
+    if (__points == nullptr || __size == 0)
+    {
+        return;
+    }
+    else if (__points->next == nullptr)
+    {
+        delete __points;
+        __size = 0;
+        return;
+    }
+    LNodePtr current = __points;
+    LNodePtr temp = nullptr;
+    while (current != nullptr){
+        if(current->next != nullptr){
+            LNodePtr temp = current->next;
+        }
+
         delete current;
         current = temp;
-    }
-    }
+        }
+    __size = 0;
+}
+
 
 
 void Cluster::__cpy(LNodePtr pts){
-
     if (pts != nullptr)
     {
-
         LNodePtr currentPts = pts;
         LNodePtr newNode = new LNode(pts->point, nullptr);
         __points = newNode;
@@ -83,7 +99,7 @@ Cluster &Cluster::operator=(const Cluster &entry) {
 
 Cluster::~Cluster()
 {
-//  __del();
+  __del();
 }
 
 int Cluster::getSize() const {
@@ -121,7 +137,7 @@ void Cluster::add(const Point & point){
     __size++;
 }
 
-const Point &Cluster::remove(const Point &point) {// problem
+const Point &Cluster::remove(const Point &point) {
     LNodePtr prev = nullptr;
     LNodePtr current = __points;
     if (current !=nullptr && current->point == point)
