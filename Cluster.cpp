@@ -4,6 +4,7 @@
 
 #include "Cluster.h"
 #include <sstream>
+#include <cassert>
 
 using namespace Clustering;
 
@@ -12,60 +13,33 @@ LNode::LNode(const Point &p, LNodePtr n): point(p){
 }
 
 void Cluster::__del(){
-
-    if (__points == nullptr || __size == 0)
-    {
-        return;
-    }
-    else if (__points->next == nullptr)
-    {
+    while(__points != nullptr){
+        LNodePtr temp = __points->next;
         delete __points;
-        __size = 0;
-        return;
+        __points = temp;
+        --__size;
     }
-    LNodePtr current = __points;
-    LNodePtr temp = nullptr;
-    while (current != nullptr){
-        if(current->next != nullptr){
-            LNodePtr temp = current->next;
-        }
-
-        delete current;
-        current = temp;
-        }
-    __size = 0;
+    assert(__size == 0);
 }
 
-
-
 void Cluster::__cpy(LNodePtr pts){
-    if (pts != nullptr)
-    {
-        LNodePtr currentPts = pts;
-        LNodePtr newNode = new LNode(pts->point, nullptr);
-        __points = newNode;
-
-        LNodePtr current = __points;
-        currentPts = currentPts->next;
-
-        while (currentPts != nullptr)
-        {
-            newNode = new LNode(currentPts->point, nullptr);
-            current->next = newNode;
-            current = current->next;
-            currentPts = currentPts->next;
-        }
-
+    if(pts == nullptr){
+        return;
+    }
+    LNodePtr origCurrent = pts;
+    LNodePtr current = __points = new LNode(origCurrent->point,nullptr);
+    while (origCurrent->next != nullptr) {
+        origCurrent = origCurrent->next;
+        current->next = new LNode(origCurrent->point,nullptr);
+        current =current->next;
     }
 }
 
 bool Cluster::__in(const Point & entryPoint) const
 {
     LNodePtr current = __points;
-    while (current != nullptr)
-    {
-        if(current->point == entryPoint)
-        {
+    while (current !=nullptr) {
+        if (current->point == entryPoint) {
             return true;
         }
         current = current->next;
@@ -84,7 +58,7 @@ Cluster::Cluster(const Cluster & entry)
     __size = entry.__size;
     if(this != &entry)
     {
-       __cpy(entry.__points);
+        __cpy(entry.__points);
     }
 }
 
@@ -99,7 +73,8 @@ Cluster &Cluster::operator=(const Cluster &entry) {
 
 Cluster::~Cluster()
 {
-  __del();
+//    if(__points !=nullptr)
+//        __del();
 }
 
 int Cluster::getSize() const {
@@ -250,7 +225,7 @@ bool Clustering::operator==(const Cluster & lhs, const Cluster & rhs){
     if(currLhs !=nullptr || currRhs != nullptr)
         return false;
     else;
-        return true;
+    return true;
 }
 bool Clustering::operator!=(const Cluster & lhs, const Cluster & rhs){
     return !(lhs == rhs);
