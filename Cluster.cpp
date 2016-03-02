@@ -19,22 +19,22 @@ void Cluster::__del(){
         __points = temp;
         __size--;
     }
+    assert(__size==0);
 }
 
 void Cluster::__cpy(LNodePtr pts){
     if(pts == nullptr){
-        __points = nullptr;             // this is what was creating problem.
+        __points = nullptr;
         __size = 0;
         return;
     }
     LNodePtr origCurrent = pts;
     LNodePtr current = __points = new LNode(origCurrent->point,nullptr);
-    __size++;
     while (origCurrent->next != nullptr) {
         origCurrent = origCurrent->next;
         current->next = new LNode(origCurrent->point,nullptr);
         current =current->next;
-        __size++;
+
     }
 }
 
@@ -62,6 +62,7 @@ Cluster::Cluster(const Cluster & entry)
 {
     if(this != &entry)
     {
+        __size = entry.__size;
         __cpy(entry.__points);
     }
 }
@@ -71,8 +72,10 @@ Cluster &Cluster::operator=(const Cluster &entry) {
     if(this != &entry)
     {
         __del();
-        this->__cpy(entry.__points);
+        __size = entry.__size;
+        __cpy(entry.__points);
     }
+    assert(__size == entry.__size);
     return *this;
 }
 
@@ -230,6 +233,7 @@ bool Clustering::operator==(const Cluster & lhs, const Cluster & rhs){
         return false;
     else;
     return true;
+
 }
 bool Clustering::operator!=(const Cluster & lhs, const Cluster & rhs){
     return !(lhs == rhs);
